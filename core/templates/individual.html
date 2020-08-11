@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<link href="{% static 'img/icon-1.png' %}" rel="icon" type="image/x-icon">
+	<link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style-individual.css' %}">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<title>WayTec</title>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light barra">
+		<a class="navbar-brand" href="{% url 'index' %}">Home</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<!-- <li class="nav-item">
+					<a class="nav-link" href="#ancora">Contos<span class="sr-only">(current)</span></a>
+				</li> -->
+				<li class="nav-item">
+					<a class="nav-link" href="faca_seu_pedido" data-toggle="tooltip" data-placement="top" title="Mude o tema caso prefira algo menos assustador">Mudar tema do site</a>
+				</li>
+			</ul>
+			{% if users_id == None %}
+			<ul class="navbar-nav">
+				<li class="nav-item ">
+					<a class="nav-link" href="{% url 'register' %}">Registrar<span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item ">
+					<a class="nav-link" href="{% url 'login' %}">Login<span class="sr-only">(current)</span></a>
+				</li>
+			</ul>
+			{% else %}
+			<ul class="navbar-nav">
+				<li class="nav-item ">
+					<a class="nav-link" href="{% url 'logout' %}" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-power-off"></i><span class="sr-only">(current)</span></a>
+				</li>
+			</ul>
+			{% endif %}
+			<form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="get">
+				<input class="form-control pesquisa mr-sm-2" name="name" type="search" placeholder="Search" aria-label="Search">
+				<button class="btn bu my-2 my-sm-0" type="submit">Search</button>
+			</form>
+		</div>
+	</nav>
+
+	<div class="ilustracao">
+		<img src="{{ article.image.url }}">
+	</div>
+
+	<div class="container carta">
+		<h1>
+			{{ article.title }} <br>
+
+			<p class="h6" style="margin-bottom: 30px">
+				Publicado em {{ article.date_send|date:"d M, Y" }}. 
+				{% if article.date_update != None %}
+				| Atualizado em {{ article.date_update }}.
+				{% endif %}
+
+
+			</p> 
+
+		</h1>
+
+		{{ article.paragraphs | safe | linebreaks}}
+
+
+		<div align="center">
+			<a href="{{ad.link}}" rel="nofollow"><img src="{{ad.image.url}}" border="0" width="250" height="250" /></a>
+		</div>
+		
+	</div>
+
+	<div class="comentarios">
+		<h1>Comentários</h1>
+
+		<form  method="post" action="{% url 'comment' %}">
+			{% csrf_token %}
+			<div class="form-group">
+				<input class="form-control" type="hidden" name="article" value="{{article.pk}}">
+				<input class="form-control" type="hidden" name="user" value="{{users_id}}">
+				<textarea class="form-control" name="details" id="exampleFormControlTextarea1" placeholder="Escreva um comentário" rows="4" ></textarea>
+			</div>
+
+			{% if users_id != None %}
+			<div align="right"><button type="submit" class="btn btn-primary">enviar</button></div>
+			{% else %}
+			<div align="right">Para comentar é necessário estar logado, <a href="{% url 'login' %}">clique aqui</a></div>
+			{% endif %}
+
+		</form>
+
+
+		{% for comment in comments %}
+		<ul class="lista-comentarios">
+			
+			<li>
+
+				<div class="comentario-principal">
+
+					{% if comment.user.image.url != None %}
+					<div class="avatar">
+						<img src="{{comment.user.image.url}}" width="70px" height="70px">
+					</div>
+					{% else %}
+					<div class="avatar">
+						<img src="{% static 'img/no-perfil.png' %}" width="70px" height="70px">
+					</div>
+					{% endif %}
+
+					<div class="caixa-comentario">
+
+						<div class="dados-comentario">
+							
+							<span><a href="#">{{comment.user.name}}</a></span>
+
+							<button  class="btn itens-comentario" onclick="Mudarestado('{{comment.id}}')">
+								<i class="fa fa-reply itens-comentario" ></i>
+							</button>
+
+							<a href="" class="itens-comentario"><i class="fa fa-heart"></i></a>
+
+							<span class="itens-comentario">{{comment.date_send |date:"d M, Y"}}</span>
+
+
+							
+						</div>
+
+						<div class="conteudo-comentario">
+							{{comment.details}}
+						</div>
+					</div>
+
+					<div id="{{comment.id}}" style="display: none;">
+						<form method="post" action="{% url 'recomment' %}">
+							{% csrf_token %}
+							<div class="form-group">
+								<input class="form-control" type="hidden" name="article" value="{{article.pk}}">
+								<input class="form-control" type="hidden" name="user" value="{{users_id}}">
+								<input class="form-control" type="hidden" name="own" value="{{comment.pk}}">
+								<textarea class="form-control" name="details" id="exampleFormControlTextarea1" placeholder="Escreva um comentário" rows="4" ></textarea>
+							</div>
+
+							<div align="right"><button type="submit" class="btn btn-primary">enviar</button></div>
+
+						</form>
+					</div>
+				</div>
+
+				{% for recomment in recomments %}
+				<!-- somente se houver resposta ao comentário -->
+
+				{% if recomment.own.pk == comment.pk %}
+				<ul class="comentario-principal">
+					<li>
+						<!-- Avatar -->
+						{% if recomment.user.image.url != None %}
+						<div class="avatar">
+							<img src="{{recomment.user.image.url}}" width="70px" height="70px">
+						</div>
+						{% else %}
+						<div class="avatar">
+							<img src="{% static 'img/no-perfil.png' %}" width="70px" height="70px">
+						</div>
+						{% endif %}
+						<!-- Contenedor del Comentario -->
+						<div class="caixa-comentario">
+							<div class="dados-comentario">
+
+								<span><a href="#">{{recomment.user.name}}</a></span>
+
+								
+								
+								<a href="" class="itens-comentario"><i class="fa fa-heart"></i></a>
+
+								<span class="itens-comentario">{{recomment.date_send |date:"d M, Y"}}</span>
+								
+
+
+							</div>
+							<div class="conteudo-comentario">
+								{{recomment.details}}
+							</div>
+						</div>
+					</li>
+				</ul>
+				{% endif %}
+
+				{% endfor %}
+				
+
+			</li>
+
+			
+
+		</ul>
+		{% endfor %}
+
+	</div>
+
+	<footer>
+		<div class="container-fluid bg-footer">
+			
+			<p class="centro"><br><br><br><br>Rodapé do esquecimento<br><br><br></p>
+
+		</div>
+
+	</footer>
+
+	<script type="text/javascript">
+		function Mudarestado(el) {
+			var display = document.getElementById(el).style.display;
+			if(display == "none")
+				document.getElementById(el).style.display = 'block';
+			else
+				document.getElementById(el).style.display = 'none';
+		}
+
+	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>

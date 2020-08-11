@@ -1,0 +1,113 @@
+.carta{
+	margin-top: 70px;
+	background: rgba(100, 100, 100, 0.01);
+	border: 1px solid rgba(100, 100, 100, 0.09);
+	border-radius: 7px;
+	padding-top: 70px;
+	padding-left: 90px;
+	padding-right: 90px;
+	padding-bottom: 100px;
+	margin-bottom: 160px;
+}
+
+.ilustracao img{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 325px;
+    overflow: hidden
+	filter: saturate(90%);
+	/*border: 1px solid red;*/
+}
+
+
+
+/*comentarios*/
+ * {
+ 	-webkit-box-sizing: border-box;
+ 	-moz-box-sizing: border-box;
+ 	box-sizing: border-box;
+ }
+
+.comentarios{
+	width: 90%;
+	border: 1px solid rgba(100, 100, 100, 0.1);
+	margin: 0 auto;
+	min-height: 120px;
+	padding: 12px;
+	border-radius: 7px;
+}
+
+body{
+	font-family: 'Roboto', Arial, Helvetica, Sans-serif, Verdana;
+}
+
+.comentarios h1{
+	font-size: 36px;
+	color: #283035;
+	font-weight: 400;
+	margin-bottom: 10px;
+	border-bottom: 4px solid rgba(100, 100, 100, 0.1);
+
+
+
+}
+
+.comentarios ul{
+	list-style-type: none;
+}
+
+
+.lista-comentarios{
+	margin-top: 30px;
+	position: relative;
+}
+
+.comentario-principal{
+	
+}
+
+.caixa-comentario{
+	margin-bottom: 10px;
+	/*border-top: 1px solid rgba(100, 100, 100, 0.07);*/
+}
+
+
+.dados-comentario > .nome-autor{
+	font-weight: bolder;
+	/*float: left;*/
+	padding-left: 64px;
+	padding-right: 300px;
+
+
+    
+
+}
+
+.itens-comentario{
+	float: right;
+	padding-right: 10px;
+
+}
+
+.conteudo-comentario{
+	clear: both;
+	/*padding-left: 70px;*/
+}
+
+.avatar{
+	width: 70px;
+	height: 70px;
+	position: relative;
+	z-index: 99;
+	float: left;
+	border: 3px solid #FFF;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+	overflow: hidden;
+}

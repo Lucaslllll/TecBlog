@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<link href="{% static 'img/icon-1.png' %}" rel="icon" type="image/x-icon">
+	<link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<title>WayTec</title>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light barra">
+		<a class="navbar-brand" href="{% url 'index' %}">Home</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+
+				<li class="nav-item">
+					<a class="nav-link" href="{% url 'index' %}" data-toggle="tooltip" data-placement="top" title="Mude o tema caso prefira algo menos assustador">Mudar tema do site</a>
+				</li>
+
+
+			</ul>
+			
+			{% if users_id == None %}
+			<ul class="navbar-nav">
+				<li class="nav-item ">
+					<a class="nav-link" href="{% url 'register' %}">Registrar<span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item ">
+					<a class="nav-link" href="{% url 'login' %}">Login<span class="sr-only">(current)</span></a>
+				</li>
+			</ul>
+			{% else %}
+			<ul class="navbar-nav">
+				<li class="nav-item ">
+					<a class="nav-link" href="{% url 'logout' %}" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-power-off"></i><span class="sr-only">(current)</span></a>
+				</li>
+			</ul>
+			{% endif %}
+
+			<form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="get">
+				<input class="form-control pesquisa mr-sm-2" name="name" type="search" placeholder="Search" aria-label="Search">
+				<button class="btn bu my-2 my-sm-0" type="submit">Search</button>
+			</form>
+
+		</div>
+	</nav>
+
+
+	<div class="container-fluid back">
+
+		<div class="row">
+			<div class="col-12">
+				
+				<!-- jumbotron do index -->
+				<div class="jumbotron centro img col-12">
+					<h1 class="display-4">Bem Vindo ao WayTec</h1>
+					<p class="lead">Um blog sobre conhecimentos tecnológicos e empreendedorismo</p>
+					<hr class="bg-light my-4">
+					<p>Faça um tour.</p>
+					<!-- <a class="btn btn-success btn-lg" href="#" role="button">Veja mais</a> -->
+				</div>
+				
+
+			</div>
+		</div>
+
+		<!-- card to history -->
+		<div class="row">
+			<div class="entrada-texto">
+				Um blog com conteúdo tecnológico e com dicas sobre empreendorismo e marketing digital. Tem a premissa de trazer um conteúdo que irá abranger esses temas, porém não sempre. Abordar coisas interessantes sobre esses mundos. Esse blog tentará ajudar as pessoas de alguma forma, seja com conhecimento ou com dicas importantes.
+			</div>
+		</div>
+
+		<div class="row">
+			<!-- <div class="itens-artigo">
+				<div class="row">
+					<div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
+						<img src="img/tecfundo.png" class="img-artigo" width="140px" height="115px">
+					</div>
+
+					<div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+						<h1>Título</h1>
+						descrição descrição descrição descrição descrição descrição descrição descrição
+						descrição descrição descrição descriçãodescrição descrição descrição descriçãodescrição descrição descrição descrição descrição descrição descrição descrição
+						descrição descrição descrição descriçãodescrição descrição descrição descrição
+
+					</div>
+
+					<div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 center-artigo">
+						<button class="btn btn-primary">Continuar lendo</button>
+					</div>
+
+				</div>
+			</div> -->
+			{% if search == True %}
+				<h2 class="pesquisa-alerta">Resultados da busca</h2>
+			{% endif %}
+
+			{% for article in articles %}
+
+			{% if article.is_visible == True %}
+			<div class="card text-center col-12">
+				
+				<div class="card-body">
+					<div class="row">
+
+						<div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
+							<img src="{{ article.image.url }}" class="img-artigo" width="140px" height="115px">
+						</div>
+
+						<div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+							<h5 class="card-title">{{ article.title }}</h5>
+							<p class="card-text">{{ article.resume }}</p>
+						</div>
+
+						<div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
+							<a href="{% url 'individual' article.pk %}" class="btn btn-primary">Continue lendo</a>
+						</div>
+
+					</div>
+				</div>
+				
+			</div>
+			{% endif %}
+
+			{% endfor %}
+
+		</div>
+		
+		<div class="row">
+
+		<nav aria-label="..." class="page-artigo">
+			<ul class="pagination">
+
+				{% if articles.has_previous %}
+				<li class="page-item">
+					<span class="page-link"><a href="?page=1">First</a></span>
+				</li>
+				<li class="page-item">
+					<span class="page-link"><a href="?page={{ articles.previous_page_number }}">Previous</a></span>
+				</li>
+
+				{% endif %}
+
+				{% for p in articles.page_range %}
+					a
+				{% endfor %}
+
+
+				<li class="page-item active" aria-current="page">
+					<span class="page-link">
+						{{ articles.number }}
+						<span class="sr-only">(current)</span>
+					</span>
+				</li>
+
+
+				
+
+				{% if articles.has_next %} 
+				<li class="page-item">
+					<a class="page-link" href="?page={{ articles.next_page_number }}">Next</a>
+				</li>
+
+				<li class="page-item">
+					<a class="page-link" href="?page={{ articles.paginator.num_pages }}">Last</a>
+				</li>
+				{% endif %}
+
+			</ul>
+		</nav>
+
+		</div>
+
+
+
+	</div>
+	<footer>
+		<div class="container-fluid bg-footer">
+			
+			<p class="centro"><br><br><br><br>
+				
+			<br><br><br></p>
+		
+		</div>
+
+	</footer>
+
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	</body>
+	</html>
