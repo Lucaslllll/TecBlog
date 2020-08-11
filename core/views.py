@@ -31,7 +31,7 @@ def index(request):
     data = {}
 
     search = False
-    articles = Article.objects.filter(is_visible=True)
+    articles = Article.objects.filter(is_visible=True).order_by('-id')
 
     paginator = Paginator(articles, 4)
 
