@@ -72,11 +72,11 @@ def search(request):
 
     return render(request, 'index.html', data)
 
-def individual(request, pk):
+def individual(request, slug):
     data = {}
     count = Ads.objects.count()
     random = randrange(1, count+1)
-    article =  Article.objects.get(pk=pk)
+    article =  Article.objects.get(slug=slug)
     comments = Comment.objects.filter(article=article.pk)
   
 
@@ -118,7 +118,7 @@ def comment(request):
             comment = form1.save(commit=False)
             comment.save()
 
-            return redirect('individual', pk=comment.article.pk)
+            return redirect('individual', slug=comment.article.slug)
         else:
             return HttpResponse(json.dumps(form1.errors))  
 
@@ -130,7 +130,7 @@ def recomment(request):
             recomment = form2.save(commit=False)
             recomment.save()
 
-            return redirect('individual', pk=recomment.article.pk)
+            return redirect('individual', slug=recomment.article.slug)
         else:
             return HttpResponse(json.dumps(form2.errors))  
 

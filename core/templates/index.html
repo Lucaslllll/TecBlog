@@ -20,9 +20,9 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
 
-				<li class="nav-item">
+				<!-- <li class="nav-item">
 					<a class="nav-link" href="{% url 'index' %}" data-toggle="tooltip" data-placement="top" title="Mude o tema caso prefira algo menos assustador">Mudar tema do site</a>
-				</li>
+				</li> -->
 
 
 			</ul>
@@ -121,7 +121,7 @@
 						</div>
 
 						<div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
-							<a href="{% url 'individual' article.pk %}" class="btn btn-primary">Continue lendo</a>
+							<a href="{% url 'individual' article.slug %}" class="btn btn-primary">Continue lendo</a>
 						</div>
 
 					</div>
@@ -185,9 +185,11 @@
 	<footer>
 		<div class="container-fluid bg-footer">
 			
-			<p class="centro"><br><br><br><br>
+			
+				<div class="logo-way">
+				<img width="120px" height="70px" src="{% static 'img/logo-waytec-2.0.png' %}"> <span style="color: white; font-weight: bolder;">@WayTec</span>
+				</div>
 				
-			<br><br><br></p>
 		
 		</div>
 

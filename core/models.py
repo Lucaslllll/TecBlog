@@ -35,6 +35,7 @@ class Article(models.Model):
     date_send = models.DateField(auto_now_add=True)
     date_update = models.DateField(null=True, blank=True)
     is_visible = models.BooleanField(null=True, blank=True, default=True)
+    slug = models.CharField(max_length=1000, null=True)
 
     def __str__(self):
         return self.title
