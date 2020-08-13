@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 #page registro
 #
 # 
+# depois add um metodo para add multiplos paragráfos e imagens
 # 
 # Django
 # Pillow
@@ -32,10 +33,17 @@ class Article(models.Model):
     resume = models.CharField(max_length=255, help_text=('Texto curto com 255 caracteres para listar.'))
     paragraphs = models.TextField()
     image = models.ImageField(upload_to='media/foto_article', null=True)
-    date_send = models.DateField(auto_now_add=True)
+    date_send = models.DateField()
     date_update = models.DateField(null=True, blank=True)
     is_visible = models.BooleanField(null=True, blank=True, default=True)
     slug = models.CharField(max_length=1000, null=True)
+    tags1 = models.CharField(max_length=255, null=True)
+    tags2 = models.CharField(max_length=255, null=True)
+    tags3 = models.CharField(max_length=255, null=True)
+    tags4 = models.CharField(max_length=255, null=True)
+    tags5 = models.CharField(max_length=255, null=True)
+
+
 
     def __str__(self):
         return self.title

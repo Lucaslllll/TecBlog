@@ -7,8 +7,10 @@
 	<link href="{% static 'img/icon-1.png' %}" rel="icon" type="image/x-icon">
 	<link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet"/>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style-individual.css' %}">
+	<meta name="keywords" content="{{article.tags1}},{{article.tags2}},{{article.tags3}},{{article.tags4}},{{article.tags5}}">
+
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-	<title>WayTec</title>
+	<title>WayTec | {{article.title}}</title>
 </head>
 <body>
 
@@ -57,7 +59,7 @@
 
 	<div class="container carta">
 		<h1>
-			{{ article.title }} <br>
+			{{ article.title }} <br/>
 
 			<p class="h6" style="margin-bottom: 30px">
 				Publicado em {{ article.date_send|date:"d M, Y" }}. 
